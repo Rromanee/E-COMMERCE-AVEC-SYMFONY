@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container py-5">
+
+    <div class="product-line add-product mb-5">
+
+        <div>
+            <img src="{{ asset('images/products/' ~ placeholder) }}"
+                 alt="image produit" 
+                 class="product-placeholder">
+        </div>
+
+        <div class="product-content">
+
+            {{ form_start(form, {'method': 'POST'}) }}
+
+            <div class="row g-3 align-items-end content">
+
+                <div class="col">
+                    <label>Nom</label>
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Prix</label>
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Stock XS</label>
+                    {{ form_widget(form.stockXS, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Stock S</label>
+                    {{ form_widget(form.stockS, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Stock M</label>
+                    {{ form_widget(form.stockM, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Stock L</label>
+                    {{ form_widget(form.stockL, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col">
+                    <label>Stock XL</label>
+                    {{ form_widget(form.stockXL, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+            </div>
+
+            <div class="row g-3 align-items-end">
+            
+                <div class="col">
+                    <label>Image</label>
+                        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                
+                <div class="col d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        {{ form_widget(form.isFeatured) }}
+                            <label class="form-check-label">Featured</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <button class="btn btn-custom">
+                    AJOUTER
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+    </div>
+
+    {% for product in products %}
+
+        <div class="product-line mb-4">
+
+            <div class="product-image">
+                <img src="{{ asset('images/products/' ~ product.image) }}" class="product-image" alt="{{ product.name }}">
+            </div>
+
+            <div class="product-content">
+
+                <div class="row g-3 align-items-center content">
+
+                    <div class="col">
+                        <label>Nom</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.name }}"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>Prix</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.price }} €"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>XS</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.stockXS }}"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>S</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.stockS }}"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>M</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.stockM }}"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>L</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.stockL }}"
+                               readonly>
+                    </div>
+
+                    <div class="col">
+                        <label>XL</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ product.stockXL }}"
+                               readonly>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4">
+
+                    <a href="{{ path('admin_delete', {id: product.id}) }}"
+                       class="btn btn-delete">
+                        SUPPRIMER
+                    </a>
+
+                    <a href="{{ path('admin_edit', {id: product.id}) }}"
+                       class="btn btn-edit">
+                        MODIFIER
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

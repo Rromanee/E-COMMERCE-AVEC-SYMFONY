@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier - Stubborn Shop{% endblock %}
+
+{% block body %}
+
+<div class="container my-4">
+
+    <h1 class="mb-4">Mon panier</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% set total = 0 %}
+
+    {% if cart is empty %}
+
+        <p>Ton panier est vide.</p>
+
+    {% else %}
+
+        {% for item in cart %}
+
+            {% set product = item.product %}
+            {% set lineTotal = product.price * item.qty %}
+            {% set total = total + lineTotal %}
+
+            <div class="card mb-3 p-3">
+
+                <div class="d-flex align-items-start">
+
+                    <div style="width: 120px;">
+                        <img src="{{ asset('images/products/' ~ product.image) }}"
+                             class="img-fluid"
+                             alt="{{ product.name }}">
+                    </div>
+
+                    <div class="flex-grow-1 ms-3">
+
+                        <div class="d-flex justify-content-between">
+
+                            <h5 class="mb-0">{{ product.name }}</h5>
+
+                            <span>{{ product.price }} €</span>
+
+                            <span>Taille : {{ item.size }}</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="text-end mt-2">
+                    <a href="{{ path('app_cart_remove', {'key': item.product.id ~ '_' ~ item.size}) }}"
+                       class="btn btn-outline-secondary btn-sm">
+                        SUPPRIMER DU PANIER
+                    </a>
+                </div>
+
+            </div>
+
+        {% endfor %}
+ 
+        <div class="d-flex flex-column align-items-end mt-4 gap-2">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="border p-2 px-3">
+                    <strong>TOTAL : {{ total }} €</strong>
+                </div>
+
+                <a href="{{ path('app_stripe_checkout') }}" class="btn btn-danger">
+                    FINALISER MA COMMANDE
+                </a>
+
+            </div>
+
+            <a href="{{ path('app_products') }}" class="btn btn-success">
+                CONTINUER MES ACHATS
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

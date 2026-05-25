@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique - Stubborn Shop{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="d-flex justify-content-end align-items-center mb-4">
+        <a href="{{ path('app_home') }}" class="btn btn-outline-secondary">Retour à l'accueil</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="filter-box p-3">
+                <h5 class="mb-3">Fourchette de prix</h5>
+                <a href="{{ path('app_products', {'min_price': 10, 'max_price': 29}) }}" class="btn btn-light w-100 mb-2 {% if current_min == '10' and current_max == '29' %}active{% endif %}">10 € à 29 €</a>
+                <a href="{{ path('app_products', {'min_price': 30, 'max_price': 35}) }}" class="btn btn-light w-100 mb-2 {% if current_min == '30' and current_max == '35' %}active{% endif %}">30 € à 35 €</a>
+                <a href="{{ path('app_products', {'min_price': 35, 'max_price': 50}) }}" class="btn btn-light w-100 mb-2 {% if current_min == '35' and current_max == '50' %}active{% endif %}">35 € à 50 €</a>
+            </div>
+        </div>
+        
+        {% if products[0] is defined %}
+        <div class="col-md-4 mb-4">
+            <div class="product-card">
+                <img src="{{ asset('images/products/' ~ products[0].image) }}" class="product-image" alt="{{ products[0].name }}">
+                <div class="product-info">
+                    <div class="product-details">
+                        <h5 class="product-name">{{ products[0].name }}</h5>
+                        <p class="product-price">{{ products[0].price }} €</p>
+                    </div>
+                    <a href="{{ path('app_product_detail', {'id': products[0].id}) }}" class="btn-action">Voir</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if products[1] is defined %}
+        <div class="col-md-4 mb-4">
+            <div class="product-card">
+                <img src="{{ asset('images/products/' ~ products[1].image) }}" class="product-image" alt="{{ products[1].name }}">
+                <div class="product-info">
+                    <div class="product-details">
+                        <h5 class="product-name">{{ products[1].name }}</h5>
+                        <p class="product-price">{{ products[1].price }} €</p>
+                    </div>
+                    <a href="{{ path('app_product_detail', {'id': products[1].id}) }}" class="btn-action">Voir</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% for product in products|slice(2) %}
+        {% if loop.index0 % 3 == 0 %}<div class="row">{% endif %}
+        <div class="col-md-4 mb-4">
+            <div class="product-card">
+                <img src="{{ asset('images/products/' ~ product.image) }}" class="product-image" alt="{{ product.name }}">
+                <div class="product-info">
+                    <div class="product-details">
+                        <h5 class="product-name">{{ product.name }}</h5>
+                        <p class="product-price">{{ product.price }} €</p>
+                    </div>
+                    <a href="{{ path('app_product_detail', {'id': product.id}) }}" class="btn-action">Voir</a>
+                </div>
+            </div>
+        </div>
+        {% if loop.index0 % 3 == 2 or loop.last %}</div>{% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

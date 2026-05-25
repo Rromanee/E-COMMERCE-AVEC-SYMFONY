@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - Stubborn Shop{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="detail-frame p-4">
+
+        <div class="row align-items-start">
+
+            <div class="col-md-5 mb-4">
+                <img src="{{ asset('images/products/' ~ product.image) }}"
+                     class="img-fluid"
+                     alt="{{ product.name }}">
+            </div>
+
+            <div class="col-md-7">
+
+                <form method="post" action="{{ path('app_cart_add', {'id': product.id}) }}">
+
+                    <div class="d-flex align-items-start">
+
+                        <div>
+
+                            <h1 class="product-name">{{ product.name }}</h1>
+                            <p class="product-price">{{ product.price }} €</p>
+
+                        </div>
+
+                        <div class="filter-box p-3 ms-4">
+
+                            <h5 class="mb-3">Taille</h5>
+
+                            {% set sizes = ['XS', 'S', 'M', 'L', 'XL'] %}
+
+                            {% for size in sizes %}
+
+                                {% set stockValue = stocks[size] %}
+
+                                <div class="form-check">
+
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="size"
+                                           value="{{ size }}"
+                                           id="size_{{ size }}"
+                                           {% if stockValue <= 0 %}disabled{% endif %}
+                                           {% if loop.first and stockValue > 0 %}checked{% endif %}>
+
+                                    <label class="form-check-label" for="size_{{ size }}">
+                                        {{ size }}
+                                    </label>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn-action mt-4">
+                        AJOUTER AU PANIER
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

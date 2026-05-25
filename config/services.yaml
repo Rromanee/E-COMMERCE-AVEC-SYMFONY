@@ -19,5 +19,12 @@ services:
     App\:
         resource: '../src/'
 
+    Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator:
+        alias: security.authenticator.form_login.main
+
+    App\EventListener\RunTestsOnStartListener:
+        class: App\EventListener\RunTestsOnStartListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
